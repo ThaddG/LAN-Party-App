@@ -33,35 +33,46 @@ const HostParty = (props) => {
   }
 
   const onSubmit = async (data) => {
-    
-    let latitude = await getLatitude(data.Location);
-    let longitude = await getLongitude(data.Location);
+    try {
+      let latitude = await getLatitude(data.Location);
+      let longitude = await getLongitude(data.Location);
 
-    const payload = {
-      // Host: cookies.get("ID"),
-      Host: user.ID,
-      Name: data.Title,
-      Location: data.Location,
-      Latitude: latitude,
-      Longitude: longitude,
-      Date: startDate
-    };
-    const headers = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const link = `${REACT_APP_URL}CreateParty`;
-    axios
-      .post(link, payload, headers)
-      .then(res => {
-        console.log(res);
-      })
-      .catch((error) => console.log(error));
-
-    console.log(payload);
-
-    props.history.push("/");
+      if (latitude !== typeof(1)) {
+        throw new Error("Invalid Location");
+      }
+      else if (longitude !== typeof(1)) {
+        throw new Error("Invadid Location");
+      }
+  
+      const payload = {
+        // Host: cookies.get("ID"),
+        Host: user.ID,
+        Name: data.Title,
+        Location: data.Location,
+        Latitude: latitude,
+        Longitude: longitude,
+        Date: startDate
+      };
+      const headers = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const link = `${REACT_APP_URL}CreateParty`;
+      // axios
+      //   .post(link, payload, headers)
+      //   .then(res => {
+      //     console.log(res);
+      //   })
+      //   .catch((error) => console.log(error));
+  
+      console.log(payload);
+  
+      props.history.push("/");
+    } catch (error) {
+      console.log(error);
+      console.log("Invalid Address:", error)
+    }
   }
 
   return(

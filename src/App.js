@@ -14,7 +14,7 @@ function App() {
   const [user, setUser] = useContext(UserContext);
   // set user
   const updateUser = () => {
-    if(cookies.get("Logged") === "true") {
+    if(cookies.get("LoggedIn") === "true") {
       setUser({
         ...user,
         Username: cookies.get("Username"),
